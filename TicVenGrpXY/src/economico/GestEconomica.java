@@ -1,5 +1,6 @@
 package economico;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class GestEconomica implements ItfFacturas {
@@ -13,20 +14,43 @@ public class GestEconomica implements ItfFacturas {
 
 	@Override
 	public int pagarFactura(int idFactura) {
-		// TODO Auto-generated method stub
+		for (Factura factura : LstFacturas) {
+			if(factura.getIdFactura() == idFactura) {
+				ArrayList<Factura> nuevaLista = getLstFacturas();
+				nuevaLista.remove(factura);
+				factura.setPagado(LocalDateTime.now());
+				nuevaLista.add(factura);
+				setLstFacturas(nuevaLista);
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public float getCoste(int idFactura) {
-		// TODO Auto-generated method stub
+		for (Factura factura : LstFacturas) {
+			if(factura.getIdFactura() == idFactura) {
+				return factura.getCantidad();
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public Factura getFactura(int idFactura) {
-		// TODO Auto-generated method stub
+		for (Factura factura : LstFacturas) {
+			if(factura.getIdFactura() == idFactura) {
+				return factura;
+			}
+		}
 		return null;
 	}
 
+	//getters y setters
+	public ArrayList<Factura> getLstFacturas() {
+		return LstFacturas;
+	}
+	public void setLstFacturas(ArrayList<Factura> lstFacturas) {
+		LstFacturas = lstFacturas;
+	}
 }
