@@ -3,7 +3,7 @@ package inventario;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-import economico.Factura;
+
 import economico.ItfFacturas;
 import extras.Localizacion;
 import extras.TicVenError;
@@ -70,31 +70,50 @@ public class GestInventario implements ItfInventario {
 				return;
 			}
 		}
-		throw new TicVenError();
+		throw new TicVenError("Intentando dar de baja un elemento que no se encuentra en el inventario.");
 	}
 
 	@Override
-	public int[] buscar(int tipo, String Modelo, Localizacion loc, String responsableDNI) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer[] buscar(int tipo, String modelo, Localizacion loc, String responsableDNI) {
+		ArrayList<Integer> encontrados = new ArrayList<>();
+		for (ElementoInventario elemInv : inventario) {
+			if(elemInv.getTipo() == tipo && elemInv.getModelo().equals(modelo) && elemInv.getLoc() == loc && elemInv.getResponsableDNI().equals(responsableDNI)) {
+				encontrados.add(elemInv.getId());
+			}
+		}
+		Integer[] arrEncontrados = new Integer[encontrados.size()];
+		arrEncontrados = encontrados.toArray(arrEncontrados);
+		return arrEncontrados;
 	}
 
 	@Override
 	public int getIdFactura(int idInv) throws TicVenError {
-		// TODO Auto-generated method stub
-		return 0;
+		for (ElementoInventario elementoInventario : inventario) {
+			if(elementoInventario.getId() == idInv) {
+				return elementoInventario.getIdFactura();
+			}
+		}
+		throw new TicVenError("Intentando obtener el id de factura de un elemento que no se encuentra en el inventario.");
 	}
 
 	@Override
 	public float getCoste(int idInv) throws TicVenError {
-		// TODO Auto-generated method stub
-		return 0;
+		for (ElementoInventario elementoInventario : inventario) {
+			if(elementoInventario.getId() == idInv) {
+				return gestEconomica.getCoste(elementoInventario.getIdFactura());
+			}
+		}
+		throw new TicVenError("Intentando obtener el coste de un elemento que no se encuentra en el inventario.");
 	}
 
 	@Override
 	public void pagaElementoInventario(int idInv) throws TicVenError {
-		// TODO Auto-generated method stub
-
+		for (ElementoInventario elementoInventario : inventario) {
+			if(elementoInventario.getId() == idInv) {
+				gestEconomica.pagarFactura(elementoInventario.getIdFactura());
+			}
+		}
+		throw new TicVenError("Intentando pagar un elemento que no se encuentra en el inventario.");
 	}
 
 	public ArrayList<ElementoInventario> getInventario() {

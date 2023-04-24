@@ -3,7 +3,7 @@ package economico;
 import java.time.LocalDateTime;
 
 public class Factura {
-	private static int idCounter = 0;
+	private static int idCounter = 1;
 	int idFactura;
 	String Empresa;
 	LocalDateTime pagado;

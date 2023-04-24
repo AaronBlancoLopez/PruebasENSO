@@ -12,7 +12,7 @@ public class GestIncidencias implements ItfGestIncidencias {
 	
 	@Override
 	public int crearIncidencia(int idInv, String descripcion) {
-		// TODO Auto-generated method stub
+		lstIncidencias.add(new Incidencia(idInv, descripcion));
 		return 0;
 	}
 
