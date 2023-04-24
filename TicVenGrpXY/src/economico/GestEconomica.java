@@ -7,7 +7,7 @@ public class GestEconomica implements ItfFacturas {
 
 	@Override
 	public int creaFactura(String empresa, String concepto, float cantidad) {
-		// TODO Auto-generated method stub
+		LstFacturas.add(new Factura(empresa, cantidad, concepto));
 		return 0;
 	}
 
